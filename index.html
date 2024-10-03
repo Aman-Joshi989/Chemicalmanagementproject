@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Chemical Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+    <style>
+        table,
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        tr.selected td {
+            background-color: #e6e8ff;
+        }
+
+
+
+        button {
+            margin: 5px;
+        }
+
+        body {
+            margin: 117px;
+            background-color: #fafafa;
+        }
+
+        button {
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        button svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .table>thead {
+            vertical-align: text-top;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container text-center">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <h1>Chemical supplies </h1>
+            </div>
+            <div class="col-md-6 text-end">
+                <button id="addRow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0032c8"
+                        class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg></button>
+                <button id="moveUp"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0032c8"
+                        class="bi bi-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"
+                            stroke="#0032c8" stroke-width="2" />
+                    </svg></button>
+                <button id="moveDown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0032c8"
+                        class="bi bi-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"
+                            stroke="#0032c8" stroke-width="2" />
+                    </svg></button>
+                <button id="deleteRow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#c83200"
+                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                    </svg></button>
+                <button id="refreshData"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                        class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path stroke="#0032c8" stroke-width="2" fill="none"
+                            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+                        <path stroke="#0032c8" stroke-width="2" fill="none"
+                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                    </svg></button>
+                <button id="saveData"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0032c8"
+                        class="bi bi-floppy2-fill" viewBox="0 0 16 16">
+                        <path d="M12 2h-2v3h2z" />
+                        <path
+                            d="M1.5 0A1.5 1.5 0 0 0 0 1.5v13A1.5 1.5 0 0 0 1.5 16h13a1.5 1.5 0 0 0 1.5-1.5V2.914a1.5 1.5 0 0 0-.44-1.06L14.147.439A1.5 1.5 0 0 0 13.086 0zM4 6a1 1 0 0 1-1-1V1h10v4a1 1 0 0 1-1 1zM3 9h10a1 1 0 0 1 1 1v5H2v-5a1 1 0 0 1 1-1" />
+                    </svg></button>
+            </div>
+
+            <div class="col-lg-12">
+                <table class="table " id="chemicalTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-check" viewBox="0 0 16 16">
+                                    <path
+                                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"
+                                        stroke="grey" stroke-width="1.5" />
+                                </svg></th>
+                            <th onclick="sortTable(1)"></th>
+                            <th onclick="sortTable(2)">Chemical Name</th>
+                            <th onclick="sortTable(3)">Vendor</th>
+                            <th onclick="sortTable(4)">Density <br> <small>g/m<sup>3</sup></small></th>
+                            <th onclick="sortTable(5)">Viscosity <br> <small>m<sup>2</sup>/s</small> </th>
+                            <th onclick="sortTable(6)">Packaging</th>
+                            <th onclick="sortTable(7)">Pack Size</th>
+                            <th onclick="sortTable(8)">Unit</th>
+                            <th onclick="sortTable(9)">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById("chemicalTable");
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.rows);
+            let direction = "ascending";
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].innerText.toLowerCase();
+                const cellB = rowB.cells[columnIndex].innerText.toLowerCase();
+
+                if (direction === "ascending") {
+                    return cellA > cellB ? 1 : -1;
+                } else {
+                    return cellA < cellB ? 1 : -1;
+                }
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+
+            direction = direction === "ascending" ? "descending" : "ascending";
+        }
+
+
+        document.getElementById("addRow").addEventListener("click", function () {
+            var table = document.getElementById("chemicalTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+
+
+            for (let i = 0; i < 10; i++) {
+                var newCell = newRow.insertCell(i);
+                newCell.contentEditable = true;
+                newCell.innerHTML = "New Value";
+            }
+
+
+            newRow.addEventListener('click', function () {
+                document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', function () {
+                document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+
+        document.getElementById("moveUp").addEventListener("click", function () {
+            var selectedRow = document.querySelector("tr.selected");
+
+            if (selectedRow && selectedRow.previousElementSibling) {
+                selectedRow.parentNode.insertBefore(selectedRow, selectedRow.previousElementSibling);
+            } else {
+                alert("No row selected or it's the first row.");
+            }
+        });
+
+
+        document.getElementById("moveDown").addEventListener("click", function () {
+            var selectedRow = document.querySelector("tr.selected");
+
+            if (selectedRow && selectedRow.nextElementSibling) {
+                selectedRow.parentNode.insertBefore(selectedRow.nextElementSibling, selectedRow);
+
+            } else {
+                alert("No row selected or it's the last row.");
+            }
+        });
+
+        document.getElementById("deleteRow").addEventListener("click", function () {
+            var selectedRow = document.querySelector("tr.selected");
+
+            if (selectedRow) {
+                selectedRow.parentNode.removeChild(selectedRow);
+                saveTableData();
+            } else {
+                alert("No row selected.");
+            }
+        });
+
+        document.getElementById("refreshData").addEventListener("click", function () {
+            var tableBody = document.getElementById("chemicalTable").getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = "";
+            loadTableData(chemicalData);
+        });
+
+        //Save Data functionality
+        document.getElementById("saveData").addEventListener("click", function () {
+            saveTableData();
+
+        });
+
+        function makeTableEditable() {
+            const editableCells = document.querySelectorAll('td.editable');
+
+            editableCells.forEach(cell => {
+                cell.addEventListener('click', function () {
+                    if (!cell.isContentEditable) {
+                        cell.setAttribute('contenteditable', 'true');
+                        cell.focus();
+                    }
+                });
+                cell.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        saveTableData();
+                    }
+                });
+            });
+        }
+
+        function saveTableData() {
+            var table = document.getElementById("chemicalTable").getElementsByTagName('tbody')[0];
+            var rows = table.getElementsByTagName('tr');
+            var data = [];
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i].getElementsByTagName('td');
+                var rowData = {
+                    id: row[1].innerText,
+                    chemicalName: row[2].innerText,
+                    vendor: row[3].innerText,
+                    density: row[4].innerText,
+                    viscosity: row[5].innerText,
+                    packaging: row[6].innerText,
+                    packSize: row[7].innerText,
+                    unit: row[8].innerText,
+                    quantity: row[9].innerText
+                };
+                data.push(rowData);
+            }
+            localStorage.setItem('chemicalData', JSON.stringify(data));
+            alert("Data saved!");
+        }
+
+        const chemicalDataObj = [
+            { "id": 1, "chemicalName": "Ammonium Persulfate", "vendor": "LG Chem", "density": 3525.92, "viscosity": 60.63, "packaging": "Bag", "packSize": 100, "unit": "kg", "quantity": 6495.18 },
+            { "id": 2, "chemicalName": "Caustic Potash", "vendor": "Formosa", "density": 3172.15, "viscosity": 48.22, "packaging": "Bag", "packSize": 100, "unit": "kg", "quantity": 8751.90 },
+            { "id": 3, "chemicalName": "Sodium Bicarbonate", "vendor": "Baker's", "density": 2200.00, "viscosity": 10.00, "packaging": "Bag", "packSize": 50, "unit": "kg", "quantity": 1200.00 },
+            { "id": 4, "chemicalName": "Potassium Chloride", "vendor": "Mosaic", "density": 1961.00, "viscosity": 30.00, "packaging": "Bag", "packSize": 50, "unit": "kg", "quantity": 8000.00 },
+            { "id": 5, "chemicalName": "Sodium Hydroxide", "vendor": "BASF", "density": 2110.00, "viscosity": 30.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 5000.00 },
+            { "id": 6, "chemicalName": "Hydrochloric Acid", "vendor": "Dow", "density": 1185.00, "viscosity": 5.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 3000.00 },
+            { "id": 7, "chemicalName": "Sulfuric Acid", "vendor": "SABIC", "density": 1840.00, "viscosity": 20.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 6000.00 },
+            { "id": 8, "chemicalName": "Nitric Acid", "vendor": "Yara", "density": 1400.00, "viscosity": 8.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 4000.00 },
+            { "id": 9, "chemicalName": "Calcium Carbonate", "vendor": "Omya", "density": 2700.00, "viscosity": 10.00, "packaging": "Bag", "packSize": 25, "unit": "kg", "quantity": 15000.00 },
+            { "id": 10, "chemicalName": "Magnesium Sulfate", "vendor": "Nutrien", "density": 2450.00, "viscosity": 15.00, "packaging": "Bag", "packSize": 50, "unit": "kg", "quantity": 10000.00 },
+            { "id": 11, "chemicalName": "Sodium Chloride", "vendor": "Cargill", "density": 2400.00, "viscosity": 20.00, "packaging": "Bag", "packSize": 50, "unit": "kg", "quantity": 20000.00 },
+            { "id": 12, "chemicalName": "Acetic Acid", "vendor": "Celanese", "density": 1040.00, "viscosity": 5.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 2500.00 },
+            { "id": 13, "chemicalName": "Phosphoric Acid", "vendor": "FMC", "density": 1840.00, "viscosity": 15.00, "packaging": "Drum", "packSize": 200, "unit": "kg", "quantity": 3500.00 },
+            { "id": 14, "chemicalName": "Calcium Nitrate", "vendor": "Haifa Chemicals", "density": 1000.00, "viscosity": 10.00, "packaging": "Bag", "packSize": 25, "unit": "kg", "quantity": 8000.00 },
+            { "id": 15, "chemicalName": "Urea", "vendor": "Yara", "density": 1300.00, "viscosity": 15.00, "packaging": "Bag", "packSize": 50, "unit": "kg", "quantity": 5000.00 }
+        ];
+
+
+        function loadTableData(data) {
+            const table = document.getElementById("chemicalTable").getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+            data.forEach((item) => {
+                let row = table.insertRow();
+                row.innerHTML = `
+            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-check" viewBox="0 0 16 16">
+                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" stroke="grey" stroke-width="1.5" />
+            </svg></td>
+            <td class="editable">${item.id}</td>
+            <td class="editable">${item.chemicalName}</td>
+            <td class="editable">${item.vendor}</td>
+            <td class="editable">${item.density}</td>
+            <td class="editable">${item.viscosity}</td>
+            <td class="editable">${item.packaging}</td>
+            <td class="editable">${item.packSize}</td>
+            <td class="editable">${item.unit}</td>
+            <td class="editable">${item.quantity}</td>
+        `;
+
+
+                row.addEventListener('click', function () {
+                    document.querySelectorAll('tbody tr').forEach(r => {
+                        r.classList.remove('selected');
+                        const svg = r.querySelector('svg');
+                        if (svg) {
+                            svg.setAttribute('fill', 'grey');
+                            svg.querySelector('path').setAttribute('stroke', 'grey');
+                        }
+                    });
+
+
+                    this.classList.add('selected');
+                    const selectedSvg = this.querySelector('svg');
+                    if (selectedSvg) {
+                        selectedSvg.setAttribute('fill', '#0032c8');
+                        selectedSvg.querySelector('path').setAttribute('stroke', '#0032c8');
+                    }
+                });
+            });
+        }
+
+        const chemicalData = JSON.parse(localStorage.getItem('chemicalData')) || chemicalDataObj;
+
+
+
+        window.onload = function () {
+            loadTableData(chemicalData);
+            makeTableEditable();
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
